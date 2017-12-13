@@ -22,7 +22,6 @@ if __name__ == '__main__':
     input_fn = r'C:\zyf\github\caffe\models\bvlc_alexnet\train_val.prototxt'
     #input_fn = r'C:\zyf\github\caffe\models\bvlc_alexnet\deploy.prototxt'
     lr_before_layer_name = 'fc6'
-    spl = osp.splitext(osp.basename(input_fn))
 
     if len(sys.argv) > 1:
         input_fn = sys.argv[1]
@@ -31,6 +30,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 3:
         output_fn = sys.argv[3]
     else:
+        spl = osp.splitext(osp.basename(input_fn))
         output_fn = spl[0] + ('_fix_lr_before_%s' % lr_before_layer_name) + spl[1]
 
     edit_net_prototxt(input_fn, output_fn, fix_lr_before_layer)
