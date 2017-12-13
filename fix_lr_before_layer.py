@@ -6,16 +6,22 @@ from caffe_prototxt_editor import edit_net_prototxt
 
 
 def fix_lr_before_layer(net, layer_name):
+    print '\n===> fix learning rate before layer: ', layer_name
     fix_flag = True
 
     for l in net.layer:
         if l.name == layer_name:
             fix_flag = False
 
+        print '---> layer: ', l.name
         if fix_flag:
+            print 'set lr to 0'
             for param in l.param:
                 param.lr_mult = 0
                 param.decay_mult = 0
+        else:
+            print 'skip'
+            
 
 
 if __name__ == '__main__':
@@ -33,4 +39,4 @@ if __name__ == '__main__':
         spl = osp.splitext(osp.basename(input_fn))
         output_fn = spl[0] + ('_fix_lr_before_%s' % lr_before_layer_name) + spl[1]
 
-    edit_net_prototxt(input_fn, output_fn, fix_lr_before_layer)
+    edit_net_prototxt(input_fn, output_fn, fix_lr_before_layer, lr_before_layer_name)
